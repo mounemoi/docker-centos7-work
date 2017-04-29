@@ -14,7 +14,8 @@ RUN ( \
     rm -f /lib/systemd/system/anaconda.target.wants/*; \
     ln -sf /usr/share/zoneinfo/Japan /etc/localtime; \
     sed -i "s/^\(tsflags=nodocs\)/#\1/g" /etc/yum.conf; \
-    yum update -y
+    yum update -y; \
+    yum install -y sudo initscripts
 
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
