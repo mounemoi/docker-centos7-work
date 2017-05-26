@@ -18,7 +18,10 @@ RUN ( \
     ln -sf /usr/share/zoneinfo/Japan /etc/localtime; \
     sed -i "s/^\(tsflags=nodocs\)/#\1/g" /etc/yum.conf; \
     yum update -y; \
-    yum install -y sudo initscripts openssh-server man git vim-enhanced screen; \
+    yum install -y \
+        sudo initscripts openssh-server man git vim-enhanced screen gcc make bzip2 \
+        openssl-devel zlib-devel bzip2-devel readline-devel sqlite-devel \
+        ; \
     useradd $USER -G wheel; \
     passwd -d $USER; \
     mkdir -m 700 /home/$USER/.ssh; \
