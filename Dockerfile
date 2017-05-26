@@ -1,6 +1,9 @@
 FROM centos:7
 ENV container docker
 
+ARG USER
+
+COPY id_rsa.pub /tmp/
 RUN ( \
         cd /lib/systemd/system/sysinit.target.wants/; \
         for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done \
@@ -15,7 +18,13 @@ RUN ( \
     ln -sf /usr/share/zoneinfo/Japan /etc/localtime; \
     sed -i "s/^\(tsflags=nodocs\)/#\1/g" /etc/yum.conf; \
     yum update -y; \
-    yum install -y sudo initscripts
+    yum install -y sudo initscripts openssh-server man git vim-enhanced screen; \
+    useradd $USER -G wheel; \
+    passwd -d $USER; \
+    mkdir -m 700 /home/$USER/.ssh; \
+    cp /tmp/id_rsa.pub /home/$USER/.ssh/authorized_keys; \
+    chown -R $USER.$USER /home/$USER/.ssh; \
+    rm /tmp/id_rsa.pub;
 
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
