@@ -9,6 +9,9 @@ RUN \
     echo '# man page をインストールするように'; \
     sed -i "s/^\(tsflags=nodocs\)/#\1/g" /etc/yum.conf; \
     \
+    echo '# override_install_langs 設定を無効に'; \
+    sed -i "s/^\(override_install_langs=\)/#\1/g" /etc/yum.conf; \
+    \
     echo '# yum update & 必要なパッケージのインストール'; \
     yum update -y; \
     yum install -y \
