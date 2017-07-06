@@ -16,8 +16,7 @@ RUN \
     yum update -y; \
     yum install -y \
         sudo initscripts openssh-server man git vim-enhanced screen gcc make bzip2 wget \
-        epel-release openssl-devel zlib-devel bzip2-devel readline-devel sqlite-devel
-        ; \
+        epel-release openssl-devel zlib-devel bzip2-devel readline-devel sqlite-devel; \
     \
     echo '# systemd を利用可能にする'; \
     ( \
