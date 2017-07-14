@@ -50,5 +50,16 @@ RUN \
     chown -R $USER:$USER /home/$USER/.ssh; \
     rm /tmp/id_rsa.pub;
 
+USER $USER
+
+RUN \
+    echo '# install rbenv'; \
+    git clone https://github.com/rbenv/rbenv.git /home/$USER/.rbenv; \
+    cd /home/$USER/.rbenv && src/configure && make -C src; \
+    git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build; \
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/$USER/.bash_profile; \
+    echo 'eval "$(rbenv init -)"' >> /home/$USER/.bash_profile;
+
+USER root
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
