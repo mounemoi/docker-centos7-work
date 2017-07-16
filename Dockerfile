@@ -18,6 +18,20 @@ RUN \
         sudo initscripts openssh-server man git vim-enhanced screen gcc make bzip2 wget \
         epel-release openssl-devel zlib-devel bzip2-devel readline-devel sqlite-devel; \
     \
+    echo '# plenv 向けの perl package のインストール'; \
+    yum install -y \
+        perl \
+        perl-ExtUtils-MakeMaker \
+        perl-ExtUtils-Manifest \
+        perl-Test-Simple \
+        perl-local-lib \
+        perl-version \
+        perl-JSON-PP \
+        perl-CPAN-Meta \
+        perl-File-Path \
+        perl-Digest-MD5 \
+        ; \
+    \
     echo '# systemd を利用可能にする'; \
     ( \
         cd /lib/systemd/system/sysinit.target.wants/; \
