@@ -59,7 +59,13 @@ RUN \
     git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build; \
     echo '# rbenv' >> /home/$USER/.bash_profile; \
     echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/$USER/.bash_profile; \
-    echo 'eval "$(rbenv init -)"' >> /home/$USER/.bash_profile;
+    echo 'eval "$(rbenv init -)"' >> /home/$USER/.bash_profile; \
+    \
+    echo '# install plenv'; \
+    git clone https://github.com/tokuhirom/plenv.git /home/$USER/.plenv; \
+    echo '# plenv' >> /home/$USER/.bash_profile; \
+    echo 'export PATH="$HOME/.plenv/bin:$PATH"' >> /home/$USER/.bash_profile; \
+    echo 'eval "$(plenv init -)"' >> /home/$USER/.bash_profile;
 
 USER root
 VOLUME [ "/sys/fs/cgroup" ]
