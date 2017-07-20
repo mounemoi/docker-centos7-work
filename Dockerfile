@@ -15,8 +15,22 @@ RUN \
     echo '# yum update & 必要なパッケージのインストール'; \
     yum update -y; \
     yum install -y \
-        sudo initscripts openssh-server man git vim-enhanced screen gcc make bzip2 wget \
+        sudo initscripts openssh-server man git vim-enhanced screen gcc make bzip2 wget patch \
         epel-release openssl-devel zlib-devel bzip2-devel readline-devel sqlite-devel; \
+    \
+    echo '# plenv 向けの perl package のインストール'; \
+    yum install -y \
+        perl \
+        perl-ExtUtils-MakeMaker \
+        perl-ExtUtils-Manifest \
+        perl-Test-Simple \
+        perl-local-lib \
+        perl-version \
+        perl-JSON-PP \
+        perl-CPAN-Meta \
+        perl-File-Path \
+        perl-Digest-MD5 \
+        ; \
     \
     echo '# systemd を利用可能にする'; \
     ( \
@@ -59,7 +73,16 @@ RUN \
     git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build; \
     echo '# rbenv' >> /home/$USER/.bash_profile; \
     echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/$USER/.bash_profile; \
-    echo 'eval "$(rbenv init -)"' >> /home/$USER/.bash_profile;
+    echo 'eval "$(rbenv init -)"' >> /home/$USER/.bash_profile; \
+    \
+    echo '# install plenv'; \
+    git clone https://github.com/tokuhirom/plenv.git /home/$USER/.plenv; \
+    git clone https://github.com/tokuhirom/Perl-Build.git /home/$USER/.plenv/plugins/perl-build/; \
+    echo '# plenv' >> /home/$USER/.bash_profile; \
+    echo 'export PATH="$HOME/.plenv/bin:$HOME/perl5/bin:$PATH"' >> /home/$USER/.bash_profile; \
+    echo 'export PERL5LIB="$HOME/perl5/lib/perl5:$PERL5LIB"' >> /home/$USER/.bash_profile; \
+    echo 'eval "$(plenv init -)"' >> /home/$USER/.bash_profile; \
+    PATH="$HOME/.plenv/bin:$PATH" plenv install-cpanm;
 
 USER root
 VOLUME [ "/sys/fs/cgroup" ]
